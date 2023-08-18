@@ -1,0 +1,1 @@
+cd consumer && yarn start
