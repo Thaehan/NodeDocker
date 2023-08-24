@@ -1,4 +1,4 @@
-const amqplib = require('amqplib/callback_api')
+import amqplib from 'amqplib/callback_api.js';
 
 const queue = 'defaultChannel';
 
@@ -13,7 +13,7 @@ amqplib.connect('amqp://localhost', (err, conn) => {
 
     ch2.consume(queue, (msg) => {
       if (msg !== null) {
-        console.log(msg.content.toString());
+        console.log(`This is the message from producer: ${msg.content.toString()}`);
         ch2.ack(msg);
       } else {
         console.log('Consumer cancelled by server');

@@ -1,4 +1,4 @@
-const amqplib = require('amqplib/callback_api')
+import amqplib from 'amqplib/callback_api.js';
 
 const queue = 'defaultChannel';
 
@@ -12,7 +12,7 @@ amqplib.connect('amqp://localhost', (err, conn) => {
 
     setInterval(() => {
       console.log('create new message')
-      ch1.sendToQueue(queue, Buffer("broh this is a rabbitMQ"));
+      ch1.sendToQueue(queue, Buffer("This is a rabbit mq message from producer"));
     }, 1000);
   });
 });
