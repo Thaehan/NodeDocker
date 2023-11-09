@@ -1,0 +1,1 @@
+cd rest-server && yarn start

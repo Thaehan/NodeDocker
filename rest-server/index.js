@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import { connectToMongoDB, connectToRabbitMQ } from "./src/configs/index.js";
+import router from "./src/routes/index.js";
 
 dotenv.config();
 const app = express();
@@ -17,7 +17,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-connectToRabbitMQ();
+app.use(router);
 
 app.listen(port, () => {
   console.log("listening on port ", port);

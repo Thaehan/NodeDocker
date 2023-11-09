@@ -1,1 +1,0 @@
-cd producer && yarn start
