@@ -1,4 +1,4 @@
-import { InferSchemaType, Mongoose, Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 const postSchema = new Schema(
   {

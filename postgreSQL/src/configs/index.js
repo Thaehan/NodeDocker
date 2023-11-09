@@ -2,7 +2,7 @@ import amqplib from "amqplib/callback_api.js";
 import { Sequelize } from "sequelize";
 import pg from "pg";
 
-import { createTable } from "../controllers/index.js";
+import { createPost, createTable } from "../controllers/index.js";
 
 const queue = "postgre";
 const dialect = "postgres";
@@ -31,16 +31,25 @@ export const connectToPostgre = async () => {
 };
 
 export const connectToRabbitMQ = () => {
-  amqplib.connect("amqp://localhost", (err, conn) => {
+  amqplib.connect("amqp://localhost", async (err, conn) => {
     // Listener
-    conn.createChannel((err, channel) => {
+    conn.createChannel(async (err, channel) => {
       if (err) throw err;
 
       channel.assertQueue(queue);
 
-      channel.consume(queue, (msg) => {
+      channel.consume(queue, async (msg) => {
         if (msg !== null) {
-          console.log(`${msg.content}`);
+          const message = JSON.parse(msg.content);
+          if (message.type === "get") {
+            console.log("get");
+            channel.ack(msg);
+            return;
+          }
+          if (message.data) {
+            await createPost(message.data);
+            console.log(message.data);
+          }
           channel.ack(msg);
         } else {
           console.log("Consumer cancelled by server");

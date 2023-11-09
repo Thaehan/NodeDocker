@@ -3,7 +3,7 @@ import { sequelize } from "../configs/index.js";
 export const createTable = async () => {
   try {
     const result = await sequelize.query(`CREATE TABLE IF NOT EXISTS post(
-        title "char" NOT NULL,
+        title character varying NOT NULL,
         description text
     )`);
 
@@ -21,7 +21,8 @@ export const selectAllPost = async () => {
 };
 
 export const createPost = async (post) => {
-  const result = await sequelize.query(`INSERT INTO post(title, description)
-    VALUES (${post.title}, ${post.description});`);
+  const result = await sequelize.query(
+    `INSERT INTO post(title, description) VALUES ('${post.title}', '${post.description}');`
+  );
   console.log("result", result);
 };

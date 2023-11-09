@@ -1,6 +1,8 @@
 import amqplib from "amqplib/callback_api.js";
 import mongoose from "mongoose";
 
+import { createPost } from "../controller/post.controller.js";
+
 const queue = "mongo";
 
 export const connectToMongoDB = async () => {
@@ -11,17 +13,26 @@ export const connectToMongoDB = async () => {
   }
 };
 
-export const connectToRabbitMQ = () => {
-  amqplib.connect("amqp://localhost", (err, conn) => {
+export const connectToRabbitMQ = async () => {
+  amqplib.connect("amqp://localhost", async (err, conn) => {
     // Listener
-    conn.createChannel((err, channel) => {
+    conn.createChannel(async (err, channel) => {
       if (err) throw err;
 
       channel.assertQueue(queue);
 
-      channel.consume(queue, (msg) => {
+      channel.consume(queue, async (msg) => {
         if (msg !== null) {
-          console.log(`${msg.content}`);
+          const message = JSON.parse(msg.content);
+          if (message.type === "get") {
+            console.log("get");
+            channel.ack(msg);
+            return;
+          }
+          if (message.data) {
+            await createPost(message.data);
+            console.log(message.data);
+          }
           channel.ack(msg);
         } else {
           console.log("Consumer cancelled by server");

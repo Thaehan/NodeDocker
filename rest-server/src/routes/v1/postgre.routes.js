@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get("/", getAllPostgre);
 
+router.post("/", createPostgre);
+
 export default router;

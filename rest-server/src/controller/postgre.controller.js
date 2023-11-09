@@ -5,6 +5,8 @@ export const POSTGRE_QUEUE = "postgre";
 export const createPostgre = async (req, res, next) => {
   let connection;
   try {
+    const { type, data } = req.body;
+
     connection = await amqp.connect("amqp://localhost");
     const channel = await connection.createChannel();
 
@@ -13,8 +15,8 @@ export const createPostgre = async (req, res, next) => {
       POSTGRE_QUEUE,
       Buffer.from(
         JSON.stringify({
-          title: "post",
-          description: "postgre sql",
+          type,
+          data,
         })
       )
     );
@@ -28,31 +30,25 @@ export const createPostgre = async (req, res, next) => {
 };
 
 export const getAllPostgre = async (req, res, next) => {
+  let connection;
   try {
-    let connection;
-    try {
-      connection = await amqp.connect("amqp://localhost");
-      const channel = await connection.createChannel();
+    connection = await amqp.connect("amqp://localhost");
+    const channel = await connection.createChannel();
 
-      await channel.assertQueue(POSTGRE_QUEUE, { durable: true });
-      channel.sendToQueue(
-        POSTGRE_QUEUE,
-        Buffer.from(
-          JSON.stringify({
-            title: "post",
-            description: "postgre sql",
-          })
-        )
-      );
-      await channel.close();
-    } catch (err) {
-      console.warn(err);
-    } finally {
-      if (connection) await connection.close();
-    }
+    await channel.assertQueue(POSTGRE_QUEUE, { durable: true });
+    channel.sendToQueue(
+      POSTGRE_QUEUE,
+      Buffer.from(
+        JSON.stringify({
+          type: "get",
+        })
+      )
+    );
+    await channel.close();
   } catch (error) {
     console.error(error);
   } finally {
+    if (connection) await connection.close();
     res.status(200).send("OK");
   }
 };
