@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "a3703db9-30a8-43b0-ba17-e682c8da5f6e",
+		"name": "RabbitMQ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28835724"
+	},
+	"item": [
+		{
+			"name": "GET MONGO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{RABBITMQ_HOST}}/mongo/",
+					"host": [
+						"{{RABBITMQ_HOST}}"
+					],
+					"path": [
+						"mongo",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET POSTGRE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{RABBITMQ_HOST}}/postgre/",
+					"host": [
+						"{{RABBITMQ_HOST}}"
+					],
+					"path": [
+						"postgre",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE MONGO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"title\": \"Dat do test\",\n        \"description\": \"Dat tests\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{RABBITMQ_HOST}}/mongo/",
+					"host": [
+						"{{RABBITMQ_HOST}}"
+					],
+					"path": [
+						"mongo",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE POSTGRE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"title\": \"Dat do test\",\n        \"description\": \"Dat tests\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{RABBITMQ_HOST}}/postgre/",
+					"host": [
+						"{{RABBITMQ_HOST}}"
+					],
+					"path": [
+						"postgre",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
